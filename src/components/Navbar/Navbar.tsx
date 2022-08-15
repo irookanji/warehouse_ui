@@ -3,7 +3,7 @@ import logo from '../../assets/images/ikea.svg'
 import { Container } from '@mui/material'
 import { StyledNavbar, LogoWrapper, Image, NavbarContainer, WelcomingText } from './styles'
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   return (
     <StyledNavbar>
       <Container maxWidth='xl'>
