@@ -1,13 +1,18 @@
 import React from 'react'
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
-import Product from './components/Product/Product'
+import ProductsList from './components/ProductsList/ProductsList'
+import Cart from './components/Cart/Cart'
 
 function App() {
   return (
     <div className='App'>
       <Navbar />
-      <Product />
+      <div className='container'>
+        <ProductsList />
+        <Cart />
+      </div>
+      
     </div>
   )
 }

@@ -14,8 +14,10 @@ const Counter: React.FC = () => {
     else {
       setCount(0)
       alert('min limit reached')
+      //   setOpenSnackBar(true)
     }
   }
+
   return (
     <>
       <div>

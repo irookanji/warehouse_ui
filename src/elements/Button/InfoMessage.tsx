@@ -7,7 +7,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
-const InfoMessage = () => {
+const InfoMessage: React.FC = () => {
   const [openSnackBar, setOpenSnackBar] = React.useState(false)
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
