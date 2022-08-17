@@ -7,8 +7,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import CustomButton from '../../elements/Button/Button'
 import Counter from '../../elements/Button/Counter'
 import { StyledAccordeon, StyledCounter, StyledButtonContainer } from './styles'
+import { Article } from '../../types'
 
-const Product: React.FC = () => {
+interface IProps {
+  name: string
+  articles: Article[]
+}
+
+const Product: React.FC<IProps> = ({ name, articles }) => {
   const [expanded, setExpanded] = React.useState<string | false>(false)
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -22,13 +28,15 @@ const Product: React.FC = () => {
           aria-controls='panel1bh-content'
           id='panel1bh-header'
         >
-          <Typography>Dining Chairs</Typography>
+          <Typography>{name}</Typography>
           <Typography sx={{ ml: '3rem' }}>in stock: 3</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Seat: 4</Typography>
-          <Typography>Leg: 16</Typography>
-          <Typography>Back: 3</Typography>
+          {articles.map((item) => (
+            <Typography key={item.id}>
+              {item.name}: {item.amountInStock}
+            </Typography>
+          ))}
         </AccordionDetails>
 
         <StyledCounter>
