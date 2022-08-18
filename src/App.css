@@ -5,5 +5,10 @@
 .container {
   display: flex;
   justify-content: space-evenly;
-  /* height: 700px; */
+}
+
+@media screen and (max-width: 992px) {
+  .container {
+    flex-direction: column;
+  }
 }
