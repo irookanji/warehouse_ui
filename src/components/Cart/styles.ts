@@ -1,12 +1,13 @@
 import styled from 'styled-components'
-import { Box, Card } from '@mui/material'
+import { Box, Card, Button } from '@mui/material'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 
 export const StyledCard = styled(Card)`
   min-width: 275px;
   max-width: 500px;
-  height: 250px;
-  max-height: 600px;
+  /* min-height: 250px; */
+  position: relative;
+  max-height: 307px;
 `
 export const ItemContainer = styled(Box)`
   display: flex;
@@ -17,6 +18,9 @@ export const ItemContainer = styled(Box)`
   margin: 1rem 0;
 `
 export const DeleteButton = styled(DeleteForeverOutlinedIcon)`
-  color: red;
+  color: #ee4444;
   cursor: pointer;
+`
+export const SaleButton = styled(Button)`
+  left: 70%;
 `

@@ -16,8 +16,7 @@ export const StyledCounter = styled.div`
   margin-right: 1rem;
 `
 
-export const StyledButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 0 3rem 2rem 0;
+export const AmountInStock = styled.span`
+  font-size: 1rem;
+  color: #0058a3;
 `

@@ -6,9 +6,10 @@ import { Product as ProductType } from '../../types'
 interface IProps {
   products: ProductType[]
   isLoading: boolean
+  addProductsToCart: (name: string, amount: number) => void
 }
 
-const ProductsList: React.FC<IProps> = ({ products, isLoading }) => {
+const ProductsList: React.FC<IProps> = ({ products, isLoading, addProductsToCart }) => {
   return (
     <ProductsListContainer>
       {isLoading ? (
@@ -20,6 +21,7 @@ const ProductsList: React.FC<IProps> = ({ products, isLoading }) => {
             name={item.name}
             articles={item.articles}
             amountInStock={item.amountInStock}
+            addProductsToCart={addProductsToCart}
           />
         ))
       )}
