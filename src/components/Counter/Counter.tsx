@@ -3,8 +3,13 @@ import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
+import { StyledButtonContainer } from './styles'
 
-const Counter: React.FC = () => {
+interface IProps {
+  addProduct: (amount: number) => void
+}
+
+const Counter: React.FC<IProps> = ({ addProduct }) => {
   const [count, setCount] = useState(0)
   const IncNum = () => {
     setCount(count + 1)
@@ -16,6 +21,10 @@ const Counter: React.FC = () => {
       alert('min limit reached')
       //   setOpenSnackBar(true)
     }
+  }
+
+  const countProduct = () => {
+    addProduct(count)
   }
 
   return (
@@ -35,6 +44,12 @@ const Counter: React.FC = () => {
             </Button>
           </div>
         </div>
+
+        <StyledButtonContainer>
+          <Button variant='contained' onClick={countProduct}>
+            ADD
+          </Button>
+        </StyledButtonContainer>
       </div>
     </>
   )
