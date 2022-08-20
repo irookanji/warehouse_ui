@@ -1,5 +1,5 @@
 import * as React from 'react'
-import logo from '../../assets/images/ikea.svg'
+import logo from '../../assets/images/logo.png'
 import { Container } from '@mui/material'
 import { StyledNavbar, LogoWrapper, Image, NavbarContainer, WelcomingText } from './styles'
 
