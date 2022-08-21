@@ -1,12 +1,12 @@
 import React from 'react'
 import Product from '../Product/Product'
 import { ProductsListContainer, StyledSkeleton } from './styles'
-import { Product as ProductType } from '../../types'
+import { Product as ProductType, Article } from '../../types'
 
 interface IProps {
   products: ProductType[]
   isLoading: boolean
-  addProductsToCart: (name: string, amount: number) => void
+  addProductsToCart: (id: string, name: string, amount: number, articles: Article[]) => void
 }
 
 const ProductsList: React.FC<IProps> = ({ products, isLoading, addProductsToCart }) => {
@@ -17,6 +17,7 @@ const ProductsList: React.FC<IProps> = ({ products, isLoading, addProductsToCart
       ) : (
         products.map((item) => (
           <Product
+            id={item.id}
             key={item.id}
             name={item.name}
             articles={item.articles}

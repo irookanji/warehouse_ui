@@ -6,13 +6,14 @@ import { StyledAccordeon, StyledCounter, AmountInStock } from './styles'
 import { Article } from '../../types'
 
 interface IProps {
+  id: string
   name: string
   articles: Article[]
   amountInStock?: number
-  addProductsToCart: (name: string, amount: number) => void
+  addProductsToCart: (id: string, name: string, amount: number, articles: Article[]) => void
 }
 
-const Product: React.FC<IProps> = ({ name, articles, amountInStock, addProductsToCart }) => {
+const Product: React.FC<IProps> = ({ id, name, articles, amountInStock, addProductsToCart }) => {
   const [expanded, setExpanded] = React.useState<string | false>(false)
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -20,14 +21,13 @@ const Product: React.FC<IProps> = ({ name, articles, amountInStock, addProductsT
   }
 
   const addProduct = (amount: number) => {
-    addProductsToCart(name, amount)
-    console.log(name, amount)
+    addProductsToCart(id, name, amount, articles)
+    console.log('Adding:', name, amount)
   }
 
   return (
     <StyledAccordeon>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel1bh-content'

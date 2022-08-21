@@ -22,5 +22,6 @@ export const DeleteButton = styled(DeleteForeverOutlinedIcon)`
   cursor: pointer;
 `
 export const SaleButton = styled(Button)`
-  left: 70%;
+  left: 25%;
+  margin-bottom: 1rem;
 `
