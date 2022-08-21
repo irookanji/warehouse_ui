@@ -3,38 +3,52 @@ import './App.css'
 import Navbar from './components/Navbar/Navbar'
 import ProductsList from './components/ProductsList/ProductsList'
 import Cart from './components/Cart/Cart'
-import { getAllArticles, getAllProducts } from './api/requests'
 import { Product, Article } from './types'
+import { getAllProductsFromAPI } from './utils/processDataFromAPI'
 
 function App() {
   const [products, setProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [productsInCart, setProductsInCart] = useState<
+    { id: string; name: string; amount: number; articles: Article[] }[]
+  >([])
 
   useEffect(() => {
+    setIsLoading(true)
     ;(async () => {
-      const products = await getAllProducts()
-      setProducts(products)
-      const articles = await getAllArticles()
-
-      const copyProducts = JSON.parse(JSON.stringify(products))
-      const copyArticles = JSON.parse(JSON.stringify(articles))
-
-      for (let i = 0; i < copyProducts.length; i++) {
-        const updatedArticlesInProducts = copyProducts[i].articles.map((item: Article) => {
-          const foundArticle = copyArticles.find((article: Article) => article.id === item.id)
-          return { ...item, name: foundArticle?.name, amountInStock: foundArticle?.amountInStock }
-        })
-        copyProducts[i].articles = updatedArticlesInProducts
-      }
-      setProducts(copyProducts)
+      const productsFromAPI = await getAllProductsFromAPI()
+      setProducts(productsFromAPI)
+      setIsLoading(false)
     })()
   }, [])
+
+  const addProductsToCart = (id: string, name: string, amount: number, articles: Article[]) => {
+    setProductsInCart([...productsInCart, { id, name, amount, articles }])
+  }
+
+  const deleteProductFromCart = (name: string) => {
+    setProductsInCart((products) => products.filter((product) => product.name !== name))
+  }
+
+  const clearCartAfterRegisterSale = () => {
+    setProductsInCart([])
+  }
 
   return (
     <div className='App'>
       <Navbar />
+
       <div className='container'>
-        <ProductsList products={products} />
-        <Cart />
+        <ProductsList
+          products={products}
+          isLoading={isLoading}
+          addProductsToCart={addProductsToCart}
+        />
+        <Cart
+          productsInCart={productsInCart}
+          deleteProductFromCart={deleteProductFromCart}
+          clearCartAfterRegisterSale={clearCartAfterRegisterSale}
+        />
       </div>
     </div>
   )
