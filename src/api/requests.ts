@@ -68,7 +68,20 @@ export async function postSale(data: CreateSaleRequest): Promise<CreateSaleRespo
 
 export async function patchBulkArticles(
   data: PatchArticlesRequest,
-): Promise<PatchArticlesResponse> {
-  const response = await axios.patch(`${url}/articles`, data)
-  return response.data
+): Promise<PatchArticlesResponse | undefined> {
+  try {
+    const retries = 3
+    for (let i = 0; i < retries; i++) {
+      try {
+        const response = await axios.patch(`${url}/articles`, data)
+        return response.data
+      } catch (error) {
+        console.log('cannot post Sales data')
+        throw error
+      }
+    }
+  } catch (e) {
+    console.log(e)
+    return Promise.reject(e)
+  }
 }

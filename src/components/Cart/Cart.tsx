@@ -1,26 +1,32 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import { CardActions, CardContent, Typography } from '@mui/material'
-import { StyledCard, ItemContainer, DeleteButton, SaleButton } from './styles'
+import { StyledCard, ItemContainer, DeleteButton, SaleButton, LoaderContainer } from './styles'
 import { patchBulkArticles, postSale } from '../../api/requests'
-import { Product, Article } from '../../types'
+import { Article } from '../../types'
+import LinearProgress from '@mui/material/LinearProgress'
 
 interface IProps {
   productsInCart: { id: string; name: string; amount: number; articles: Article[] }[]
   deleteProductFromCart: (name: string) => void
   clearCartAfterRegisterSale: () => void
+  getSnackBarMessage: (message: string) => void
 }
 
 const Cart: React.FC<IProps> = ({
   productsInCart,
   deleteProductFromCart,
   clearCartAfterRegisterSale,
+  getSnackBarMessage,
 }) => {
+  const [isLoading, setIsLoading] = useState(false)
+
   const deleteProduct = (name: string) => {
     deleteProductFromCart(name)
     console.log('Deleting:', name)
   }
 
   const registerSale = () => {
+    setIsLoading(true)
     const saleData = []
     for (let i = 0; i < productsInCart.length; i++) {
       const articlesInfo = productsInCart[i].articles.map((article: Article) => {
@@ -48,9 +54,20 @@ const Cart: React.FC<IProps> = ({
       }
     }
     console.log('Unique Array Objects', uniqueArrObj)
-    // patchBulkArticles(uniqueArrObj)
+
+    patchBulkArticles(uniqueArrObj)
+      .then(() => {
+        setIsLoading(false)
+        getSnackBarMessage('✅ Congrats! The sale was registered')
+      })
+      .catch((error) => {
+        setIsLoading(false)
+        console.log(error)
+        getSnackBarMessage(`❌ ${error.response.data.message}`)
+      })
     // postSale()
-    console.log(productsInCart)
+
+    console.table(productsInCart)
 
     const productsArray = productsInCart.map((item) => {
       return { productId: item.id, amountSold: item.amount }
@@ -87,6 +104,12 @@ const Cart: React.FC<IProps> = ({
           REGISTER SALE
         </SaleButton>
       </CardActions>
+
+      {isLoading ? (
+        <LoaderContainer>
+          <LinearProgress />
+        </LoaderContainer>
+      ) : null}
     </StyledCard>
   )
 }

@@ -25,3 +25,7 @@ export const SaleButton = styled(Button)`
   left: 25%;
   margin-bottom: 1rem;
 `
+export const LoaderContainer = styled(Box)`
+  padding: 0 4.5rem;
+  margin-top: 1rem;
+`

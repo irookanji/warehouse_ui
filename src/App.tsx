@@ -5,6 +5,7 @@ import ProductsList from './components/ProductsList/ProductsList'
 import Cart from './components/Cart/Cart'
 import { Product, Article } from './types'
 import { getAllProductsFromAPI } from './utils/processDataFromAPI'
+import InfoMessage from './elements/InfoMessage/InfoMessage'
 
 function App() {
   const [products, setProducts] = useState<Product[]>([])
@@ -12,6 +13,7 @@ function App() {
   const [productsInCart, setProductsInCart] = useState<
     { id: string; name: string; amount: number; articles: Article[] }[]
   >([])
+  const [snackBarMessage, setSnackBarMessage] = useState<string | null>(null)
 
   useEffect(() => {
     setIsLoading(true)
@@ -34,6 +36,14 @@ function App() {
     setProductsInCart([])
   }
 
+  const getSnackBarMessage = (message: string) => {
+    setSnackBarMessage(message)
+  }
+
+  const handleCloseSnackBarMessage = () => {
+    setSnackBarMessage(null)
+  }
+
   return (
     <div className='App'>
       <Navbar />
@@ -48,6 +58,11 @@ function App() {
           productsInCart={productsInCart}
           deleteProductFromCart={deleteProductFromCart}
           clearCartAfterRegisterSale={clearCartAfterRegisterSale}
+          getSnackBarMessage={getSnackBarMessage}
+        />
+        <InfoMessage
+          snackBarMessage={snackBarMessage}
+          handleCloseSnackBarMessage={handleCloseSnackBarMessage}
         />
       </div>
     </div>
