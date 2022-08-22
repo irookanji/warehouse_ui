@@ -46,7 +46,11 @@ const Counter: React.FC<IProps> = ({ addProduct }) => {
         </div>
 
         <StyledButtonContainer>
-          <Button variant='contained' onClick={countProduct}>
+          <Button
+            disabled={count === 0 ? true : false}
+            variant='contained'
+            onClick={countProduct}
+          >
             ADD
           </Button>
         </StyledButtonContainer>
