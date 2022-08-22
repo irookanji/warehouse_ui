@@ -58,24 +58,23 @@ const Cart: React.FC<IProps> = ({
     patchBulkArticles(uniqueArrObj)
       .then(() => {
         setIsLoading(false)
+        const productsArray = productsInCart.map((item) => {
+          return { productId: item.id, amountSold: item.amount }
+        })
+        productsArray.forEach((item) => {
+          console.log('Products Array', item)
+          postSale(item)
+        })
         getSnackBarMessage('✅ Congrats! The sale was registered')
       })
       .catch((error) => {
         setIsLoading(false)
         console.log(error)
-        getSnackBarMessage(`❌ ${error.response.data.message}`)
+        getSnackBarMessage('❌ Not enough articles in stock. Please reduce the number of products.')
       })
-    // postSale()
 
     console.table(productsInCart)
 
-    const productsArray = productsInCart.map((item) => {
-      return { productId: item.id, amountSold: item.amount }
-    })
-    productsArray.forEach((item) => {
-      console.log('Products Array', item)
-      postSale(item)
-    })
     clearCartAfterRegisterSale()
   }
 
@@ -100,7 +99,12 @@ const Cart: React.FC<IProps> = ({
       </CardContent>
 
       <CardActions>
-        <SaleButton variant='contained' size='small' onClick={registerSale}>
+        <SaleButton
+          disabled={productsInCart.length === 0 ? true : false}
+          variant='contained'
+          size='small'
+          onClick={registerSale}
+        >
           REGISTER SALE
         </SaleButton>
       </CardActions>

@@ -25,7 +25,13 @@ function App() {
   }, [])
 
   const addProductsToCart = (id: string, name: string, amount: number, articles: Article[]) => {
-    setProductsInCart([...productsInCart, { id, name, amount, articles }])
+    const uniqueProducts = Array.from(
+      new Map(
+        [...productsInCart, { id, name, amount, articles }].map((item) => [item['name'], item]),
+      ).values(),
+    )
+
+    setProductsInCart(uniqueProducts)
   }
 
   const deleteProductFromCart = (name: string) => {
@@ -34,6 +40,10 @@ function App() {
 
   const clearCartAfterRegisterSale = () => {
     setProductsInCart([])
+    ;(async () => {
+      const productsFromAPI = await getAllProductsFromAPI()
+      setProducts(productsFromAPI)
+    })()
   }
 
   const getSnackBarMessage = (message: string) => {
