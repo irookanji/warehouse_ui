@@ -5,6 +5,8 @@ export const StyledNavbar = styled(Box)`
   background-color: white;
   margin-bottom: 2rem;
   position: static;
+  border-bottom: 3px solid rgb(0 0 0 / 20%);
+  padding-bottom: 1rem;
 `
 export const NavbarContainer = styled(Toolbar)`
   display: flex;
