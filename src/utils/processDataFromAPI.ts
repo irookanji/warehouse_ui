@@ -5,28 +5,29 @@ export const getAllProductsFromAPI = async (): Promise<Product[]> => {
   const products = await getAllProducts()
   const articles = await getAllArticles()
 
-  const copyProducts = JSON.parse(JSON.stringify(products))
-  const copyArticles = JSON.parse(JSON.stringify(articles))
-
-  for (let i = 0; i < copyProducts.length; i++) {
-    const updatedArticlesInProducts = copyProducts[i].articles.map((item: Article) => {
-      const foundArticle = copyArticles.find((article: Article) => article.id === item.id)
+  // Getting merged array of object of Products and Articles for having all the data about Articles in one place
+  for (let i = 0; i < products.length; i++) {
+    const updatedArticlesInProducts = products[i].articles.map((item: Article) => {
+      const foundArticle = articles.find((article: Article) => article.id === item.id)
       return { ...item, name: foundArticle?.name, amountInStock: foundArticle?.amountInStock }
     })
-    copyProducts[i].articles = updatedArticlesInProducts
+    products[i].articles = updatedArticlesInProducts
   }
-  for (let i = 0; i < copyProducts.length; i++) {
+
+  // Calculate amountProductInStock and set new property to products with this value
+  for (let i = 0; i < products.length; i++) {
     const amountArticleStockToRequiredArray: number[] = []
 
-    copyProducts[i].articles.forEach((item: Article) => {
+    // Calculate for each article in Product how many articlesInStock devide to amountRequired in this Product
+    products[i].articles.forEach((item: Article) => {
       const amountArticleStockToRequired = Math.floor(item?.amountInStock / item?.amountRequired)
-
       amountArticleStockToRequiredArray.push(amountArticleStockToRequired)
     })
 
+    // Calculate minimum quantity of Product in stock by minimum qantity of Articles
     const amountProductInStock = Math.min(...amountArticleStockToRequiredArray)
-    copyProducts[i].amountInStock = amountProductInStock
+    products[i].amountInStock = amountProductInStock
   }
 
-  return copyProducts
+  return products
 }

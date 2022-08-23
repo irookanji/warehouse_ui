@@ -8,26 +8,25 @@ import LinearProgress from '@mui/material/LinearProgress'
 interface IProps {
   productsInCart: { id: string; name: string; amount: number; articles: Article[] }[]
   deleteProductFromCart: (name: string) => void
-  clearCartAfterRegisterSale: () => void
+  clearCartAndGetAllProductsFromAPI: () => void
   getSnackBarMessage: (message: string) => void
 }
 
 const Cart: React.FC<IProps> = ({
   productsInCart,
   deleteProductFromCart,
-  clearCartAfterRegisterSale,
+  clearCartAndGetAllProductsFromAPI,
   getSnackBarMessage,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const deleteProduct = (name: string) => {
     deleteProductFromCart(name)
-    console.log('Deleting:', name)
   }
 
-  const registerSale = () => {
-    setIsLoading(true)
+  const prepareDataForAPIRequest = () => {
     const saleData = []
+    // Iterate and collect necessary data about Articles and get Array of Arrays
     for (let i = 0; i < productsInCart.length; i++) {
       const articlesInfo = productsInCart[i].articles.map((article: Article) => {
         return {
@@ -37,45 +36,45 @@ const Cart: React.FC<IProps> = ({
       })
       saleData.push(articlesInfo)
     }
-    console.log('Sale:', saleData.flat())
-
-    const flatedSaleData = saleData.flat()
-    const unique = Array.from(new Set(flatedSaleData.map((item) => item.id)))
-    console.log(unique)
-    const uniqueArrObj = unique.map((item) => {
+    const articlesFromCart = saleData.flat()
+    // Get array of unique Ids of Articles
+    const unique = Array.from(new Set(articlesFromCart.map((item) => item.id)))
+    // Create a new Array of Objects with unique Ids and amountToSubtract with 0 value as an Accumulator
+    const uniqueArticles = unique.map((item) => {
       return { id: item, amountToSubtract: 0 }
     })
-    console.log(uniqueArrObj)
-    for (let i = 0; i < flatedSaleData.length; i++) {
-      for (let j = 0; j < uniqueArrObj.length; j++) {
-        if (flatedSaleData[i].id === uniqueArrObj[j].id) {
-          uniqueArrObj[j].amountToSubtract += flatedSaleData[i].amountToSubtract
+    // Iterate in the not unique Array and in unique Array to compare Ids of Articles and If Ids are equal then we collect amountToSubtract to uniqueArticles
+    for (let i = 0; i < articlesFromCart.length; i++) {
+      for (let j = 0; j < uniqueArticles.length; j++) {
+        if (articlesFromCart[i].id === uniqueArticles[j].id) {
+          uniqueArticles[j].amountToSubtract += articlesFromCart[i].amountToSubtract
         }
       }
     }
-    console.log('Unique Array Objects', uniqueArrObj)
+    return uniqueArticles
+  }
 
-    patchBulkArticles(uniqueArrObj)
+  const registerSale = () => {
+    setIsLoading(true)
+
+    patchBulkArticles(prepareDataForAPIRequest())
       .then(() => {
         setIsLoading(false)
+        // Prepare data for postSale
         const productsArray = productsInCart.map((item) => {
           return { productId: item.id, amountSold: item.amount }
         })
         productsArray.forEach((item) => {
-          console.log('Products Array', item)
           postSale(item)
         })
         getSnackBarMessage('✅ Congrats! The sale was registered')
+        clearCartAndGetAllProductsFromAPI()
       })
       .catch((error) => {
         setIsLoading(false)
         console.log(error)
-        getSnackBarMessage('❌ Not enough articles in stock. Please reduce the number of products.')
+        getSnackBarMessage(`❌ ${error.response.data.message}`)
       })
-
-    console.table(productsInCart)
-
-    clearCartAfterRegisterSale()
   }
 
   return (

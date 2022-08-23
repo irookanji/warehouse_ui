@@ -5,9 +5,19 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 export const StyledCard = styled(Card)`
   min-width: 275px;
   max-width: 500px;
-  /* min-height: 250px; */
   position: relative;
   max-height: 307px;
+
+  @media (max-width: 1000px) {
+    margin: 0 auto;
+    max-width: 350px;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 450px) {
+    max-width: 350px;
+    margin-bottom: 1rem;
+  }
 `
 export const ItemContainer = styled(Box)`
   display: flex;

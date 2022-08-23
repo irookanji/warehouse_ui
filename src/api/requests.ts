@@ -20,7 +20,7 @@ type PatchArticlesResponse = { id: string; name: string; amountToSubtract: numbe
 
 export async function getAllProducts() {
   try {
-    const retries = 3
+    const retries = 5
     for (let i = 0; i < retries; i++) {
       try {
         const response = await axios.get(`${url}/products`)
@@ -36,7 +36,7 @@ export async function getAllProducts() {
 
 export async function getAllArticles() {
   try {
-    const retries = 3
+    const retries = 5
     for (let i = 0; i < retries; i++) {
       try {
         const response = await axios.get(`${url}/articles`)
@@ -52,7 +52,7 @@ export async function getAllArticles() {
 
 export async function postSale(data: CreateSaleRequest): Promise<CreateSaleResponse | undefined> {
   try {
-    const retries = 3
+    const retries = 5
     for (let i = 0; i < retries; i++) {
       try {
         const response = await axios.post(`${url}/sales`, data)
@@ -70,7 +70,7 @@ export async function patchBulkArticles(
   data: PatchArticlesRequest,
 ): Promise<PatchArticlesResponse | undefined> {
   try {
-    const retries = 3
+    const retries = 5
     for (let i = 0; i < retries; i++) {
       try {
         const response = await axios.patch(`${url}/articles`, data)
@@ -81,7 +81,6 @@ export async function patchBulkArticles(
       }
     }
   } catch (e) {
-    console.log(e)
     return Promise.reject(e)
   }
 }

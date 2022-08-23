@@ -10,8 +10,16 @@ export const ProductsListContainer = styled.div`
   background-color: #e7ebf0;
 
   @media (max-width: 850px) {
+    margin: 0 auto;
     max-width: 350px;
     margin-bottom: 1rem;
+    min-width: 60%;
+  }
+
+  @media (max-width: 450px) {
+    max-width: 350px;
+    margin-bottom: 1rem;
+    min-width: 100%;
   }
 `
 

@@ -15,6 +15,7 @@ export const NavbarContainer = styled(Toolbar)`
 `
 
 export const LogoWrapper = styled(Box)`
+  margin-right: 1rem;
   display: flex;
   filter: grayscale(0%);
   transition: filter 300ms;

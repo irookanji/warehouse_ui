@@ -38,7 +38,7 @@ function App() {
     setProductsInCart((products) => products.filter((product) => product.name !== name))
   }
 
-  const clearCartAfterRegisterSale = () => {
+  const clearCartAndGetAllProductsFromAPI = () => {
     setProductsInCart([])
     ;(async () => {
       const productsFromAPI = await getAllProductsFromAPI()
@@ -67,7 +67,7 @@ function App() {
         <Cart
           productsInCart={productsInCart}
           deleteProductFromCart={deleteProductFromCart}
-          clearCartAfterRegisterSale={clearCartAfterRegisterSale}
+          clearCartAndGetAllProductsFromAPI={clearCartAndGetAllProductsFromAPI}
           getSnackBarMessage={getSnackBarMessage}
         />
         <InfoMessage

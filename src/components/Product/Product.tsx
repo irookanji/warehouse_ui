@@ -22,7 +22,6 @@ const Product: React.FC<IProps> = ({ id, name, articles, amountInStock, addProdu
 
   const addProduct = (amount: number) => {
     addProductsToCart(id, name, amount, articles)
-    console.log('Adding:', name, amount)
   }
 
   return (
@@ -40,6 +39,7 @@ const Product: React.FC<IProps> = ({ id, name, articles, amountInStock, addProdu
         </AccordionSummary>
 
         <AccordionDetails>
+          <AmountInStock>Articles in stock:</AmountInStock>
           {articles.map((item) => (
             <Typography key={item.id}>
               {item.name}: {item.amountInStock}
