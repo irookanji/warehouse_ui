@@ -4,7 +4,7 @@
 
 ## About the application:
 
-A fully responsive frontend for a warehouse solution’s API was implemented, where when you open applications, they are displayed:
+A fully responsive frontend for a warehouse solution’s API was implemented, where when user open application, there are displayed:
 
 - the available products (name and quantity)
 - the available articles for each product (name and quantity)
@@ -13,10 +13,18 @@ A fully responsive frontend for a warehouse solution’s API was implemented, wh
 
 The API is sometimes unreliable, so I wrapped the axios requests in a try-catch block with the ability to retry the request. This allows the user to work with the application without receiving errors, although there are errors and they are caught by us under the hood.
 
+## Demo
+
+### Desktop view:
+
+![Desktop](src/assets/gif/Demo_desktop.gif)
+
+### Mobile view:
+
+![Mobile](src/assets/gif/Demo_mobile.gif)
 ## Considerations I would make for another iteration:
 
 - be able to recalculate articles on the counter on the fly
-- be able to recalculate In stock by counter
 - implement component / snapshot tests
 - add State management tool (e.x Redux, Zustand or MobX etc.) as data grows and a large number of entities
 
